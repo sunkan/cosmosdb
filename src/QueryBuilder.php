@@ -18,6 +18,7 @@ class QueryBuilder
 	private array $params = [];
 	private ?array $response = null;
 	private bool $multipleResults = false;
+	private string $lastQuery = '';
 
 	public static function instance(): static
 	{
@@ -148,7 +149,7 @@ class QueryBuilder
 		$where = $this->where != "" ? "where {$this->where}" : "";
 		$order = $this->order != "" ? "order by {$this->order}" : "";
 
-		$query = "SELECT {$limit} {$fields} FROM {$this->from} {$this->join} {$where} {$order}";
+		$this->lastQuery = $query = "SELECT {$limit} {$fields} FROM {$this->from} {$this->join} {$where} {$order}";
 
 		$this->response = $this->collection->query($query, $this->params, $isCrossPartition, $partitionValue);
 
@@ -166,7 +167,7 @@ class QueryBuilder
 		$where = $this->where != "" ? "where {$this->where}" : "";
 		$order = $this->order != "" ? "order by {$this->order}" : "";
 
-		$query = "SELECT top 1 {$fields} FROM {$this->from} {$this->join} {$where} {$order}";
+		$this->lastQuery = $query = "SELECT top 1 {$fields} FROM {$this->from} {$this->join} {$where} {$order}";
 
 		$this->response = $this->collection->query($query, $this->params, $isCrossPartition, $partitionValue);
 
@@ -456,5 +457,10 @@ class QueryBuilder
 	public function getValue(string $fieldName, mixed $default = null): mixed
 	{
 		return ($this->toObject())->{$fieldName} ?? $default;
+	}
+
+	public function getLastQuery(): string
+	{
+		return $this->lastQuery;
 	}
 }
