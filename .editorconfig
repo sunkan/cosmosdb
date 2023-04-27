@@ -1,21 +1,30 @@
+# http://editorconfig.org
 root = true
 
 [*]
+indent_style = tab
 end_of_line = lf
-insert_final_newline = true
 charset = utf-8
-max_line_length = null
-indent_style = space
 insert_final_newline = true
+trim_trailing_whitespace = true
 
-# PHP
-[*.php]
-indent_size = 4
-
-# JSON
-[*.{json}]
-indent_size = 4
-
-# Markdown
 [*.md]
 trim_trailing_whitespace = false
+
+[*.json]
+indent_style = tab
+tab_width = 4
+indent_size = tab
+
+[*.php]
+indent_style = tab
+tab_width = 4
+indent_size = tab
+
+[*.yml]
+indent_style = space
+indent_size = 2
+
+[*.yaml]
+indent_style = space
+indent_size = 2
